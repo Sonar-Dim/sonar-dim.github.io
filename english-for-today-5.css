@@ -13,7 +13,7 @@
             }
             .lesson {
                 width: 100%;
-                height: 100px;
+                height: 200px;
                 background: rgb(233, 239, 242);
                 font-size: 50px;
                 color: rgb(13, 105, 166);
@@ -50,7 +50,7 @@
             td {
                 padding: 8px;
             }
-            body {
+            body, table {
                 margin: 20px;
                 font-size: 30px;
             }
