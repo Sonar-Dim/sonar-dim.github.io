@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Editor</title>
+  <style>
+    /* Style the editor and preview areas */
+    #editor {
+      width: 100%;
+      height: calc(100vh - 40px);
+    }
+
+    #preview {
+      width: 100%;
+      height: calc(100vh - 40px);
+      border: 1px solid #ccc;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    /* Align the preview area on top */
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #editor {
+      order: 2;
+    }
+
+    #preview {
+      order: 1;
+    }
+  </style>
+</head>
+<body>
+  <!-- Create preview area -->
+  <div class="container">
+    <div id="preview"></div>
+    <!-- Create text area for code input -->
+    <textarea id="editor" placeholder="Enter your HTML code here"></textarea>
+  </div>
+
+  <!-- JavaScript to update the preview and automatically add closing tags and brackets -->
+  <script>
+    // Get references to the editor and preview elements
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+
+    // Update the preview whenever there's a change in the editor
+    editor.addEventListener('input', () => {
+      const inputText = editor.value;
+      const formattedText = addClosingTagsAndBrackets(inputText);
+      preview.innerHTML = formattedText;
+    });
+
+    // Function to add closing tags and brackets
+    function addClosingTagsAndBrackets(text) {
+      const tagsWithNoClosing = ['area', 'base', 'br', 'col', 'command', 'embed', 'hr', 'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
+
+      const tagPattern = /<(\w+)[^>]*>?/g;
+      const bracketPattern = /="[^"]*"|='[^']*'|=[^\s"'=<>`]+|>/g;
+
+      return text.replace(tagPattern, (match, tag) => {
+        if (match.endsWith('/>') || tagsWithNoClosing.includes(tag.toLowerCase())) {
+          return match;
+        } else {
+          return `${match}</${tag}>`;
+        }
+      }).replace(bracketPattern, (match) => {
+        return `${match.slice(0, -1)}" />`;
+      });
+    }
+  </script>
+</body>
+</html>
